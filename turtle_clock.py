@@ -4,12 +4,10 @@ import datetime
 import time
 
 def my_refresh(first_time = False):
-    #hour = int(turtle.numinput("Time", "Hour"))
-    #minute = int(turtle.numinput("Time", "Minute"))
     now = datetime.datetime.now()
     my_hands(first_time, float(now.hour), float(now.minute), float(now.second))
     if not first_time:
-        secondturtle.screen.ontimer(my_refresh, 1000)
+        secondturtle.screen.ontimer(my_refresh, 250)
 
 def my_circle():
     r = 250
@@ -28,13 +26,16 @@ def my_numbers():
         hourturtle.penup()
         hourturtle.goto(x, y)
         number = str(number)
-        hourturtle.write(number, True, "center", ("Arial", 50, "normal"))
+        hourturtle.write(number, True, "center", ("Arial", 40, "normal"))
 
 def my_hands(first_time, hour, minute, second):
-    if first_time or second == 0:
-        my_hourhand(first_time, hour, minute)
-        my_minutehand(first_time, minute)
-    my_secondhand(first_time, second)
+    global last_second
+    if second != last_second:
+        if first_time or second == 0:
+            my_hourhand(first_time, hour, minute)
+            my_minutehand(first_time, minute)
+        my_secondhand(first_time, second)
+        last_second = second
 
 def my_hourhand(first_time, hour, minute):
     theta = math.pi / 2.0 + (12 - hour) * math.pi / 6.0 - ((minute) * 2 * math.pi / (12.0 * 60))
@@ -45,7 +46,7 @@ def my_hourhand(first_time, hour, minute):
         hourturtle.undo()
     hourturtle.penup()
     hourturtle.goto(0, 0)
-    hourturtle.pensize(9)
+    hourturtle.pensize(6)
     hourturtle.pendown()
     hourturtle.goto(x, y)
 
@@ -73,7 +74,7 @@ def my_secondhand(first_time, second):
     secondturtle.speed(0)
     secondturtle.penup()
     secondturtle.goto(0, 0)
-    secondturtle.pensize(3)
+    secondturtle.pensize(2)
     secondturtle.pendown()
     secondturtle.goto(x, y)
 
@@ -93,8 +94,10 @@ secondturtle.hideturtle()
 my_circle()
 my_numbers()
 
+last_second = -1
+
 my_refresh(True)
 
-secondturtle.screen.ontimer(my_refresh, 1000)
+secondturtle.screen.ontimer(my_refresh, 250)
 
 hourturtle.screen.exitonclick()
