@@ -3,11 +3,13 @@ import math
 import datetime
 import time
 
-def my_refresh(first_time):
+def my_refresh(first_time = False):
     #hour = int(turtle.numinput("Time", "Hour"))
     #minute = int(turtle.numinput("Time", "Minute"))
     now = datetime.datetime.now()
     my_hands(first_time, float(now.hour), float(now.minute), float(now.second))
+    if not first_time:
+        secondturtle.screen.ontimer(my_refresh, 1000)
 
 def my_circle():
     r = 250
@@ -93,9 +95,6 @@ my_numbers()
 
 my_refresh(True)
 
-while True:
-    time.sleep(1.0)
-    my_refresh(False)
+secondturtle.screen.ontimer(my_refresh, 1000)
 
-
-hourturtle.exitonclick()
+hourturtle.screen.exitonclick()
